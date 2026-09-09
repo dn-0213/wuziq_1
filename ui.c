@@ -1,52 +1,45 @@
 #include <stdio.h>
 #include "ui.h"
+#include "game.h"
 
-extern int board[15][15];
-extern int currentPlayer;
-
-void drawBoard() {
-    printf("  ");
-    for (int x = 0; x < 15; x++) {
-        printf(" %c", 'A' + x);
+void drawBoard(void) {
+    int i, j, cell;
+    printf("   ");
+    for (j = 0; j < BOARD_SIZE; j++) {
+        printf("%c ", 'A' + j);
     }
     printf("\n");
 
-    for (int y = 0; y < 15; y++) {
-        printf("%2d", y + 1);
-        for (int x = 0; x < 15; x++) {
-            const char *piece;
-            if (board[x][y] == 1) {
-                piece = "X";
-            } else if (board[x][y] == 2) {
-                piece = "O";
+    for (i = 0; i < BOARD_SIZE; i++) {
+        printf("%2d ", i + 1);
+        for (j = 0; j < BOARD_SIZE; j++) {
+            cell = getCell(i, j);
+            if (cell == EMPTY) {
+                printf("· ");
+            } else if (cell == BLACK) {
+                printf("● ");
             } else {
-                piece = "+";
+                printf("○ ");
             }
-            printf(" %s", piece);
         }
         printf("\n");
     }
 }
 
-void showTurn() {
-    if (currentPlayer == 1) {
-        printf("Black's turn\n");
+void showTurn(void) {
+    int player = getCurrentPlayer();
+    if (player == BLACK) {
+        printf("黑方 落子\n");
     } else {
-        printf("White's turn\n");
+        printf("白方 落子\n");
     }
 }
 
-void showWinner(int player) {
-    if (player == 1) {
-        printf("Black wins!\n");
+void showWinner(void) {
+    int w = getWinner();
+    if (w == BLACK) {
+        printf("黑方 获胜\n");
     } else {
-        printf("White wins!\n");
+        printf("白方 获胜\n");
     }
-}
-
-void showHelp() {
-    printf("Usage:\n");
-    printf("  A 1 to place a piece (column + row)\n");
-    printf("  U to undo\n");
-    printf("  R to restart\n");
 }

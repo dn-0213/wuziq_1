@@ -1,29 +1,26 @@
 #ifndef GAME_H
 #define GAME_H
 
-#define SIZE 15
-#define MAX_HISTORY 225
+#define BOARD_SIZE 15
 
-extern int board[SIZE][SIZE];
-
-extern int currentPlayer;
+#define EMPTY 0
+#define BLACK 1
+#define WHITE 2
 
 extern int gameOver;
 
-extern int history[MAX_HISTORY][3];
-
-extern int historyCount;
-
-void initGame();
+void initGame(void);
 
 int placePiece(int row, int col);
 
-int checkWin(int row, int col, int player);
+void undoMove(void);
 
-void undoMove();
+void restartGame(void);
 
-void restartGame();
+int getCell(int row, int col);
 
-int checkDraw();
+int getCurrentPlayer(void);
+
+int getWinner(void);
 
 #endif
